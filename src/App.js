@@ -4,6 +4,7 @@ import styled from "styled-components";
 // import SquareButton from "./styled_components/SquredButton";
 // import RotateBox from "./animated_components/RotateButton";
 // import BlinkEventButton from "./event_components/BlinkEventButton";
+import ChannelInfo from "./sbltest/Channel";
 import VideoPlayer from "./ReactPlayer";
 
 const StBox = styled.div`
@@ -16,7 +17,7 @@ const StBox = styled.div`
 const App = () => {
   return (
     <div>
-      <VideoPlayer></VideoPlayer>
+      <ChannelInfo></ChannelInfo>
     </div>
   );
 };

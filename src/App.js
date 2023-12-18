@@ -1,23 +1,8 @@
-import "./App.css";
-import styled from "styled-components";
-// import RoundButton from "./styled_components/RoundButton";
-// import SquareButton from "./styled_components/SquredButton";
-// import RotateBox from "./animated_components/RotateButton";
-// import BlinkEventButton from "./event_components/BlinkEventButton";
-import VideoPlayer from "./ReactPlayer";
-
-const StBox = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid ${(props) => props.borderColor};
-  margin: 20px;
-`;
+import './App.css';
+import Router from './shared/Router';
 
 const App = () => {
-  return (
-    <div>
-      <VideoPlayer></VideoPlayer>
-    </div>
-  );
+  return <Router />;
 };
+
 export default App;

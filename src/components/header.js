@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ReactComponent as LemonSVG } from '../images/lemon.svg';
 import SignupModal from '../modal/SignupModal';
+import LoginModal from '../modal/LoginModal';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -69,6 +70,8 @@ const HeaderText = styled.span`
 
 const Header = () => {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
 
   const openSignupModal = () => {
     setIsSignupModalOpen(true);
@@ -76,6 +79,36 @@ const Header = () => {
 
   const closeSignupModal = () => {
     setIsSignupModalOpen(false);
+  };
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8081/api/logout', {
+        method: 'POST', 
+        headers: {
+            Authorization: accessToken,
+        },
+      });
+  
+      if (response.ok) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          alert('로그아웃 되었습니다.');
+        window.location.reload();
+      } else {
+        console.log("로그아웃에 실패하였습니다.")
+      }
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+    }
   };
   return (
     <HeaderContainer>
@@ -87,11 +120,18 @@ const Header = () => {
       <SvgDiv>
         <RollingSVG />
       </SvgDiv>
-      <UserOptions>
-        <HeaderText onClick={openSignupModal}>Sign up</HeaderText>
-        <Link to='/login'>Login</Link>
-      </UserOptions>
+      {accessToken ? (
+        <UserOptions>
+          <HeaderText onClick={handleLogout}>Log out</HeaderText>
+        </UserOptions>
+      ) : (
+        <UserOptions>
+          <HeaderText onClick={openSignupModal}>Sign up</HeaderText>
+          <HeaderText onClick={openLoginModal}>Log in</HeaderText>
+        </UserOptions>
+      )}
       {isSignupModalOpen && <SignupModal closeModal={closeSignupModal} />}
+      {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
     </HeaderContainer>
   );
 };

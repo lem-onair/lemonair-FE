@@ -10,8 +10,8 @@ const VideoPlayer = () => {
       <ReactPlayer
         url={videoUrl}
         controls={true}
-        width="100%"
-        height="auto"
+        width="50%"
+        height="50%"
         playing={true}
         config={{
           hls: {

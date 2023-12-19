@@ -18,6 +18,7 @@ const ModalBackground = styled.div`
 const Modal = styled.div`
   position: fixed;
   width: 30%;
+  height: 30%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -46,6 +47,7 @@ const InputField = styled.input`
   padding-left: 1.2%;
   line-height: 16px;
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 1vh;
 `;
 
 const SubmitButton = styled.button`
@@ -59,6 +61,7 @@ const SubmitButton = styled.button`
   background-color: #f8de7e;
   color: #4c3c00;
   margin: 0 auto;
+  margin-top: 6%;
   font-family: 'Gamja Flower', sans-serif;
 
   &:hover {
@@ -77,12 +80,9 @@ const Label = styled.label`
   font-family: 'Gamja Flower', sans-serif;
 `;
 
-const SignupModal = ({ closeModal }) => {
+const LoginModal = ({ closeModal }) => {
   const [loginId, onChangeLoginId] = useInput('');
-  const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [password2, onChangePassword2] = useInput('');
-  const [nickname, onChangeNickname] = useInput('');
   const [error, setError] = useState('');
 
   const handleOutsideClick = (e) => {
@@ -94,71 +94,44 @@ const SignupModal = ({ closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!loginId || !email || !password || !password2 || !nickname) {
-        setError('모든 필드를 입력해주세요.');
-        return;
-      }
-
-      if (password !== password2) {
-        setError('비밀번호가 일치하지 않습니다.');
-        return;
-      }
-
-    const signupData = {
-      loginId,
-      email,
+    const loginData = {
+        loginId,
       password,
-      password2,
-      nickname,
     };
 
     try {
-      const response = await fetch('http://localhost:8081/api/signup', {
+      const response = await fetch('http://localhost:8081/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(signupData),
+        body: JSON.stringify(loginData),
       });
 
       if (response.ok) {
         const data = await response.json();
-        alert(
-          `회원가입에 성공했습니다!
-방송을 시작하시려면 다음 stream key를 OBS Studio에 등록해주세요
-stream key : ${data.streamKey}`
-        );
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('refreshToken', data.refreshToken);
         closeModal();
-    } else {
-        setError('회원가입에 실패했습니다.');
-        // 서버 에러 정의되면 서버에러로 바꿔야 함
+      } else {
+        setError('아이디 또는 비밀번호가 올바르지 않습니다.');
       }
     } catch (error) {
       setError('오류가 발생했습니다.');
-      // 서버 에러 정의되면 서버에러로 바꿔야 함
     }
   };
-
   return (
     <ModalBackground onClick={handleOutsideClick}>
       <Modal>
-        <Title>Signup</Title>
+        <Title>Login</Title>
         <form onSubmit={handleSubmit}>
           <Label htmlFor='loginId'>아이디</Label>
           <InputField
-            type='text'
-            id='loginId'
+            type='loginId'
+            id='text'
             placeholder='아이디'
             value={loginId}
             onChange={onChangeLoginId}
-          />
-          <Label htmlFor='email'>이메일</Label>
-          <InputField
-            type='email'
-            id='email'
-            placeholder='이메일'
-            value={email}
-            onChange={onChangeEmail}
           />
           <Label htmlFor='password'>비밀번호</Label>
           <InputField
@@ -168,28 +141,12 @@ stream key : ${data.streamKey}`
             value={password}
             onChange={onChangePassword}
           />
-          <Label htmlFor='password2'>비밀번호 확인</Label>
-          <InputField
-            type='password'
-            id='password2'
-            placeholder='비밀번호 확인'
-            value={password2}
-            onChange={onChangePassword2}
-          />
-          <Label htmlFor='nickname'>닉네임</Label>
-          <InputField
-            type='text'
-            id='nickname'
-            placeholder='닉네임'
-            value={nickname}
-            onChange={onChangeNickname}
-          />
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          <SubmitButton type='submit'>가입하기</SubmitButton>
+          <SubmitButton type='submit'>로그인</SubmitButton>
         </form>
       </Modal>
     </ModalBackground>
   );
 };
 
-export default SignupModal;
+export default LoginModal;

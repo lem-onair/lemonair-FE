@@ -1,7 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import useInput from '../hooks/useInput';
-import { TodayOutlined } from '@material-ui/icons';
+
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+`;
 
 const Modal = styled.div`
   position: fixed;
@@ -72,6 +84,12 @@ const SignupModal = ({ closeModal }) => {
   const [password2, onChangePassword2] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
 
+  const handleOutsideClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,52 +129,54 @@ stream key : ${data.streamKey}`
   };
 
   return (
-    <Modal>
-      <Title>Signup</Title>
-      <form onSubmit={handleSubmit}>
-        <Label htmlFor='loginId'>아이디</Label>
-        <InputField
-          type='text'
-          id='loginId'
-          placeholder='아이디'
-          value={loginId}
-          onChange={onChangeLoginId}
-        />
-        <Label htmlFor='email'>이메일</Label>
-        <InputField
-          type='email'
-          id='email'
-          placeholder='이메일'
-          value={email}
-          onChange={onChangeEmail}
-        />
-        <Label htmlFor='password'>비밀번호</Label>
-        <InputField
-          type='password'
-          id='password'
-          placeholder='비밀번호'
-          value={password}
-          onChange={onChangePassword}
-        />
-        <Label htmlFor='password2'>비밀번호 확인</Label>
-        <InputField
-          type='password'
-          id='password2'
-          placeholder='비밀번호 확인'
-          value={password2}
-          onChange={onChangePassword2}
-        />
-        <Label htmlFor='nickname'>닉네임</Label>
-        <InputField
-          type='text'
-          id='nickname'
-          placeholder='닉네임'
-          value={nickname}
-          onChange={onChangeNickname}
-        />
-        <SubmitButton type='submit'>가입하기</SubmitButton>
-      </form>
-    </Modal>
+    <ModalBackground onClick={handleOutsideClick}>
+      <Modal>
+        <Title>Signup</Title>
+        <form onSubmit={handleSubmit}>
+          <Label htmlFor='loginId'>아이디</Label>
+          <InputField
+            type='text'
+            id='loginId'
+            placeholder='아이디'
+            value={loginId}
+            onChange={onChangeLoginId}
+          />
+          <Label htmlFor='email'>이메일</Label>
+          <InputField
+            type='email'
+            id='email'
+            placeholder='이메일'
+            value={email}
+            onChange={onChangeEmail}
+          />
+          <Label htmlFor='password'>비밀번호</Label>
+          <InputField
+            type='password'
+            id='password'
+            placeholder='비밀번호'
+            value={password}
+            onChange={onChangePassword}
+          />
+          <Label htmlFor='password2'>비밀번호 확인</Label>
+          <InputField
+            type='password'
+            id='password2'
+            placeholder='비밀번호 확인'
+            value={password2}
+            onChange={onChangePassword2}
+          />
+          <Label htmlFor='nickname'>닉네임</Label>
+          <InputField
+            type='text'
+            id='nickname'
+            placeholder='닉네임'
+            value={nickname}
+            onChange={onChangeNickname}
+          />
+          <SubmitButton type='submit'>가입하기</SubmitButton>
+        </form>
+      </Modal>
+    </ModalBackground>
   );
 };
 

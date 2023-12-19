@@ -86,7 +86,7 @@ const SignupModal = ({ closeModal }) => {
 
   const handleOutsideClick = (e) => {
     if (e.target === e.currentTarget) {
-      closeModal(); // 모달 닫기 함수 호출
+      closeModal();
     }
   };
 

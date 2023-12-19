@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ReactComponent as LemonSVG } from '../images/lemon.svg';
+import SignupModal from '../modal/SignupModal';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -56,7 +57,26 @@ const UserOptions = styled.div`
   }
 `;
 
+const HeaderText = styled.span`
+  cursor: pointer;
+  margin-left: 15px;
+  font-size: 2rem;
+  text-decoration: none;
+  color: #555;
+  padding-right: 25px;
+  font-family: 'Reenie Beanie', cursive;
+`;
+
 const Header = () => {
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+
+  const openSignupModal = () => {
+    setIsSignupModalOpen(true);
+  };
+
+  const closeSignupModal = () => {
+    setIsSignupModalOpen(false);
+  };
   return (
     <HeaderContainer>
       <Logo>
@@ -68,9 +88,10 @@ const Header = () => {
         <RollingSVG />
       </SvgDiv>
       <UserOptions>
-        <Link to='/signup'>Sign up</Link>
+        <HeaderText onClick={openSignupModal}>Sign up</HeaderText>
         <Link to='/login'>Login</Link>
       </UserOptions>
+      {isSignupModalOpen && <SignupModal closeModal={closeSignupModal} />}
     </HeaderContainer>
   );
 };

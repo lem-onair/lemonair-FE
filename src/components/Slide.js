@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { StackedCarouselSlideProps } from 'react-stacked-center-carousel';
 import './Slide.css';
 
 export const Slide = React.memo(function (StackedCarouselSlideProps) {

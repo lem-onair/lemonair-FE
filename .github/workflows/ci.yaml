@@ -31,7 +31,7 @@ jobs:
       - name: Install Dependencies
 
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - run: npm run build
         if: ${{ always() }}

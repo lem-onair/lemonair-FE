@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Header from "../components/header";
-import styled from "styled-components";
-import CardExample from "../components/Card";
+import React, { useEffect, useState } from 'react';
+import Header from '../components/header';
+import styled from 'styled-components';
+import CardExample from '../components/Card';
 
 const ArticleContainer = styled.div`
   height: 20vh;
@@ -20,7 +20,7 @@ const Home = () => {
         console.log(data);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       });
   }, []);
 

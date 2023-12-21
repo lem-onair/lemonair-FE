@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
 
 jobs:
@@ -32,13 +31,13 @@ jobs:
       - name: Install Dependencies
 
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - run: npm run build
         if: ${{ always() }}
 
-      - name: Deply
+      - name: Deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-        run: aws s3 cp --recursive --region ap-northeast-2 build s3://lemonair
+        run: aws s3 cp --recursive --region ap-northeast-2 build s3://lemonair-fe

@@ -113,13 +113,16 @@ const SignupModal = ({ closeModal }) => {
     };
 
     try {
-      const response = await fetch('http://api.lemonair.me:8081/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(signupData),
-      });
+      const response = await fetch(
+        'http://api.lemonair.me:8080:8081/api/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(signupData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

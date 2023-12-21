@@ -91,12 +91,15 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://api.lemonair.me:8081/api/logout', {
-        method: 'POST',
-        headers: {
-          Authorization: accessToken,
-        },
-      });
+      const response = await fetch(
+        'http://api.lemonair.me:8080:8081/api/logout',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
 
       if (response.ok) {
         localStorage.removeItem('accessToken');

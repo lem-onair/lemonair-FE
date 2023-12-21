@@ -35,7 +35,7 @@ const ChannelDetail = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://api.lemonair.me:8081/api/channels/${id}`
+          `http://api.lemonair.me:8081/api/channels/${id}`
         );
         if (!response.ok) {
           throw new Error('Network response was not ok.');

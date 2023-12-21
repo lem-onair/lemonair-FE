@@ -7,9 +7,7 @@ const ChannelInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://api.lemonair.me:8081/api/channels"
-        );
+        const response = await axios.get("http://api.lemonair.me/api/channels");
         setChannelData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

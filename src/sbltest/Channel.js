@@ -8,7 +8,7 @@ const ChannelInfo = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'http://api.lemonair.me:8080:8081/api/channels'
+          'http://api.lemonair.me:8081/api/channels'
         );
         setChannelData(response.data);
       } catch (error) {

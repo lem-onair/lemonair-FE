@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const ChannelInfo = () => {
   const [channelData, setChannelData] = useState([]);
@@ -8,11 +8,11 @@ const ChannelInfo = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://api.lemonair.me:8081/api/channels"
+          'https://api.lemonair.me:8081/api/channels'
         );
         setChannelData(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
 

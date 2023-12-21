@@ -95,12 +95,12 @@ const LoginModal = ({ closeModal }) => {
     e.preventDefault();
 
     const loginData = {
-        loginId,
+      loginId,
       password,
     };
 
     try {
-      const response = await fetch('http://api.lemonair.me:8081/api/login', {
+      const response = await fetch('https://api.lemonair.me:8081/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

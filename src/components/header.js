@@ -91,20 +91,20 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://api.lemonair.me:8081/api/logout', {
-        method: 'POST', 
+      const response = await fetch('https://api.lemonair.me:8081/api/logout', {
+        method: 'POST',
         headers: {
-            Authorization: accessToken,
+          Authorization: accessToken,
         },
       });
-  
+
       if (response.ok) {
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          alert('로그아웃 되었습니다.');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        alert('로그아웃 되었습니다.');
         window.location.reload();
       } else {
-        console.log("로그아웃에 실패하였습니다.")
+        console.log('로그아웃에 실패하였습니다.');
       }
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);

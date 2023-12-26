@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/header';
 import VideoPlayer from '../components/ReactPlayer';
+import Chat from '../components/Chat';
 import styled from 'styled-components';
 
 const StreamingContainer = styled.div`
@@ -24,7 +25,7 @@ const StreamingTitle = styled.p`
 
 const ChatWrapper = styled.div`
   width: 32%;
-  background-color: forestgreen;
+  background-color: #fff;
 `;
 
 const ChannelDetail = () => {
@@ -35,7 +36,7 @@ const ChannelDetail = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://api.lemonair.me:8081/api/channels/${id}`
+          `http://localhost:8081/api/channels/${id}`
         );
         if (!response.ok) {
           throw new Error('Network response was not ok.');
@@ -57,7 +58,11 @@ const ChannelDetail = () => {
       <StreamingChatContainer>
         <StreamingContainer>
           {channelData ? <VideoPlayer videoUrl={channelData.hlsUrl} /> : null}
-          {channelData ? <ChatWrapper>채팅 공간입니다.</ChatWrapper> : null}
+          {channelData ? (
+            <ChatWrapper>
+              <Chat channelId={id} />
+            </ChatWrapper>
+          ) : null}
         </StreamingContainer>
       </StreamingChatContainer>
       {channelData ? (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import styled from 'styled-components';
 import CardExample from '../components/Card';
+import Payment from '../components/payments'
 
 const ArticleContainer = styled.div`
   height: 20vh;
@@ -13,7 +14,7 @@ const Home = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://api.lemonair.me:8081/api/channels')
+    fetch('http://localhost:8081/api/channels')
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -28,6 +29,7 @@ const Home = () => {
     <>
       <Header />
       <ArticleContainer></ArticleContainer>
+      <Payment></Payment>
 
       {data.length > 2 && <CardExample data={data} />}
     </>

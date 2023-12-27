@@ -45,6 +45,7 @@ const ChannelDetail = () => {
         setChannelData(data);
         console.log("title:", data.title);
         console.log("url:", data.hlsUrl);
+        console.log("roomid:", data.chattingRoomId);
       } catch (error) {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
       }

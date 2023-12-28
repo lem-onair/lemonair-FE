@@ -8,10 +8,16 @@ const ChatComponent = ({ chatToken, chattingRoomId }) => {
   const tokenString = chatToken;
 
   useEffect(() => {
+    // window.addEventListener("beforeunload", () => {
+    //   socket.close();
+    // });
     console.log("chatToken", chatToken);
     console.log("chattingRommId", chattingRoomId);
     const chattingRoomIdString = chattingRoomId;
     const accessToken = localStorage.getItem("accessToken");
+    console.log(
+      `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
+    );
     const newSocket = new WebSocket(
       `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
     );
@@ -28,41 +34,41 @@ const ChatComponent = ({ chatToken, chattingRoomId }) => {
       setMessages((prevMessages) => [...prevMessages, { from, message }]);
     };
 
-    // newSocket.onclose = () => {
-    //   console.log("웹소켓 연결 종료");
-    //   // 연결 종료 시 재연결 시도
-    //   setTimeout(async () => {
-    //     console.log("accessToken", accessToken);
-    //     const response = await fetch("http://localhost:8081/api/auth/chat", {
-    //       method: "POST",
-    //       headers: {
-    //         Authorization: accessToken,
-    //       },
-    //     });
+    newSocket.onclose = () => {
+      console.log("웹소켓 연결 종료");
+      // 연결 종료 시 재연결 시도
+      setTimeout(async () => {
+        console.log("accessToken", accessToken);
+        const response = await fetch("http://localhost:8081/api/auth/chat", {
+          method: "POST",
+          headers: {
+            Authorization: accessToken,
+          },
+        });
 
-    //     // 응답에서 토큰 추출
-    //     const tokenString = response.data.chatToken;
-    //     const reconnectSocket = new WebSocket(
-    //       `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
-    //     );
-    //     reconnectSocket.onopen = () => {
-    //       console.log("웹소켓 재연결됨");
-    //       setSocket(reconnectSocket);
-    //     };
+        // 응답에서 토큰 추출
+        const tokenString = response.data.chatToken;
+        const reconnectSocket = new WebSocket(
+          `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
+        );
+        reconnectSocket.onopen = () => {
+          console.log("웹소켓 재연결됨");
+          setSocket(reconnectSocket);
+        };
 
-    //     reconnectSocket.onmessage = (event) => {
-    //       console.log(event.data);
-    //       const receiveData = event.data.split(":");
-    //       const from = receiveData[0];
-    //       const message = receiveData.slice(1).join(":").trim();
-    //       setMessages((prevMessages) => [...prevMessages, { from, message }]);
-    //     };
-    //   }, 6000); // 6초 후 재연결 시도
-    // };
+        reconnectSocket.onmessage = (event) => {
+          console.log(event.data);
+          const receiveData = event.data.split(":");
+          const from = receiveData[0];
+          const message = receiveData.slice(1).join(":").trim();
+          setMessages((prevMessages) => [...prevMessages, { from, message }]);
+        };
+      }, 6000); // 6초 후 재연결 시도
+    };
 
-    // return () => {
-    //   newSocket.close();
-    // };
+    return () => {
+      newSocket.close();
+    };
   }, []);
 
   const sendMessage = () => {

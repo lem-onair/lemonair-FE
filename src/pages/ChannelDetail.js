@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Header from "../components/header";
-import VideoPlayer from "../components/ReactPlayer";
-import styled from "styled-components";
-import Chat from "../components/Chat";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import Header from '../components/header';
+import VideoPlayer from '../components/ReactPlayer';
+import styled from 'styled-components';
+import Chat from '../components/Chat';
 
 const StreamingContainer = styled.div`
   width: 100%;
@@ -20,12 +20,12 @@ const StreamingTitle = styled.p`
   margin-top: 15px;
   margin-left: 15px;
   font-size: 1.5rem;
-  font-family: "Gamja Flower", sans-serif;
+  font-family: 'Gamja Flower', sans-serif;
 `;
 
 const ChatWrapper = styled.div`
   width: 32%;
-  background-color: forestgreen;
+  background-color: #fff;
 `;
 
 const ChannelDetail = () => {
@@ -39,15 +39,15 @@ const ChannelDetail = () => {
           `http://localhost:8081/api/channels/${id}`
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok.");
+          throw new Error('Network response was not ok.');
         }
         const data = await response.json();
         setChannelData(data);
-        console.log("title:", data.title);
-        console.log("url:", data.hlsUrl);
-        console.log("roomid:", data.chattingRoomId);
+        console.log('title:', data.title);
+        console.log('url:', data.hlsUrl);
+        console.log('roomid:', data.chattingRoomId);
       } catch (error) {
-        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+        console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
       }
     };
 
@@ -60,10 +60,12 @@ const ChannelDetail = () => {
         <StreamingContainer>
           {channelData ? <VideoPlayer videoUrl={channelData.hlsUrl} /> : null}
           {channelData ? (
-            <Chat
-              chatToken={channelData.chatToken}
-              chattingRoomId={channelData.chattingRoomId}
-            ></Chat>
+            <ChatWrapper>
+              <Chat
+                chatToken={channelData.chatToken}
+                chattingRoomId={channelData.chattingRoomId}
+              ></Chat>
+            </ChatWrapper>
           ) : null}
         </StreamingContainer>
       </StreamingChatContainer>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import styled from "styled-components";
 import CardExample from "../components/Card";
+import ChatTokenApiTest from "../sbltest/ChatTokenApiTest";
 
 const ArticleContainer = styled.div`
   height: 20vh;
@@ -30,6 +31,7 @@ const Home = () => {
       <ArticleContainer></ArticleContainer>
 
       {data.length > 2 && <CardExample data={data} />}
+      <ChatTokenApiTest></ChatTokenApiTest>
     </>
   );
 };

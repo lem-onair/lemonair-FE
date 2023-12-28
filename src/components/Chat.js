@@ -15,7 +15,8 @@ const MessageContainer = styled.div`
 `;
 
 const MessageBox = styled.div`
-  overflow-y: auto;
+  height: 72vh;
+  overflow-y: scroll;
 `;
 
 const Sender = styled.span`
@@ -120,13 +121,19 @@ const ChatComponent = ({ chatToken, chattingRoomId }) => {
           const message = receiveData.slice(1).join(':').trim();
           setMessages((prevMessages) => [...prevMessages, { from, message }]);
         };
-      }, 6000); // 6초 후 재연결 시도
+      }, 3000); // 3초 후 재연결 시도
     };
 
     return () => {
       newSocket.close();
     };
   }, []);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(scrollToBottom, [messages]);
 
   const sendMessage = () => {
     if (inputMessage.trim() === '') return;

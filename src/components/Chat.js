@@ -99,7 +99,7 @@ const ChatComponent = ({ chattingRoomId }) => {
         chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
       }
       const newSocket = new WebSocket(
-        `ws://chat.lemonair.me:8082/chat/${chattingRoomIdString}/${chatToken}`
+        `wss://chat.lemonair.me/chat/${chattingRoomIdString}/${chatToken}`
       );
       setSocket(newSocket);
       newSocket.onopen = () => {

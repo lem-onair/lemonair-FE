@@ -100,7 +100,7 @@ const LoginModal = ({ closeModal }) => {
     };
 
     try {
-      const response = await fetch('https://api.lemonair.me:8081/api/login', {
+      const response = await fetch('https://api.lemonair.me/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

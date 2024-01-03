@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import styled from 'styled-components';
 
 const ChatContainer = styled.div`
   border: 1px solid #ccc;
@@ -23,13 +23,13 @@ const Sender = styled.span`
   color: #c0c0c0;
   font-size: 1rem;
   padding-left: 5px;
-  font-family: "Gamja Flower", sans-serif;
+  font-family: 'Gamja Flower', sans-serif;
 `;
 
 const SpanText = styled.span`
   font-size: 1.1rem;
   color: #666;
-  font-family: "Gamja Flower", sans-serif;
+  font-family: 'Gamja Flower', sans-serif;
 `;
 
 const InputContainer = styled.div`
@@ -50,7 +50,7 @@ const TextInput = styled.input`
 `;
 
 const SendButton = styled.button`
-  font-family: "Gamja Flower", sans-serif;
+  font-family: 'Gamja Flower', sans-serif;
   border-radius: 10px;
   width: 20%;
   height: 50%;
@@ -63,13 +63,13 @@ const SendButton = styled.button`
 
 const ChatComponent = ({ chattingRoomId }) => {
   const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState("");
+  const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef(null);
 
   const chattingRoomIdString = chattingRoomId;
-  const accessToken = localStorage.getItem("accessToken");
-  const fetchToken = async () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const fetchToken = useCallback(async () => {
     try {
       console.log(accessToken);
       const response = await fetch("https://api.lemonair.me/api/auth/chat", {
@@ -79,53 +79,48 @@ const ChatComponent = ({ chattingRoomId }) => {
         },
       });
       if (!response.ok) {
-        throw new Error("Network response was not ok.");
+        throw new Error('Network response was not ok.');
       }
       const data = await response.json();
-      console.log("서버에서 받은 chatTokenResponseDto : ", data);
+      console.log('서버에서 받은 chatTokenResponseDto : ', data);
       return data.chatToken;
     } catch (error) {
-      console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+      console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
-  };
+  }, [accessToken]);
 
   useEffect(() => {
-    // window.addEventListener("beforeunload", () => {
-    //   socket.close();
-    // });
-
-    // chatting 토큰을 먼저 요청하고 나서 webSocket 연결하기 위한 로직
     const connectWebSocketAsync = async () => {
-      let chatToken = "";
-      console.log("accessToken is null ? :", accessToken === null);
+      let chatToken = '';
+      console.log('accessToken is null ? :', accessToken === null);
       if (accessToken) {
         chatToken = await fetchToken();
       } else {
-        chatToken = "notlogin"; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
+        chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
       }
       const newSocket = new WebSocket(
         `ws://chat.lemonair.me:8082/chat/${chattingRoomIdString}/${chatToken}`
       );
       setSocket(newSocket);
       newSocket.onopen = () => {
-        console.log("웹소켓 연결됨");
+        console.log('웹소켓 연결됨');
       };
 
       newSocket.onmessage = (event) => {
         console.log(event.data);
-        const receiveData = event.data.split(":");
+        const receiveData = event.data.split(':');
         const from = receiveData[0];
-        const message = receiveData.slice(1).join(":").trim();
+        const message = receiveData.slice(1).join(':').trim();
         setMessages((prevMessages) => [...prevMessages, { from, message }]);
       };
 
       newSocket.onclose = () => {
-        console.log("웹소켓 연결 종료");
+        console.log('웹소켓 연결 종료');
         // 연결 종료 시 재연결 시도
         setTimeout(async () => {
-          console.log("accessToken", accessToken);
-          const response = await fetch("http://localhost:8081/api/auth/chat", {
-            method: "POST",
+          console.log('accessToken', accessToken);
+          const response = await fetch('https://api.lemonair.me/api/auth/chat', {
+            method: 'POST',
             headers: {
               Authorization: accessToken,
             },
@@ -137,15 +132,15 @@ const ChatComponent = ({ chattingRoomId }) => {
             `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
           );
           reconnectSocket.onopen = () => {
-            console.log("웹소켓 재연결됨");
+            console.log('웹소켓 재연결됨');
             setSocket(reconnectSocket);
           };
 
           reconnectSocket.onmessage = (event) => {
             console.log(event.data);
-            const receiveData = event.data.split(":");
+            const receiveData = event.data.split(':');
             const from = receiveData[0];
-            const message = receiveData.slice(1).join(":").trim();
+            const message = receiveData.slice(1).join(':').trim();
             setMessages((prevMessages) => [...prevMessages, { from, message }]);
           };
         }, 3000); // 3초 후 재연결 시도
@@ -159,20 +154,20 @@ const ChatComponent = ({ chattingRoomId }) => {
   }, [accessToken, chattingRoomIdString, fetchToken]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(scrollToBottom, [messages]);
 
   const sendMessage = () => {
-    if (inputMessage.trim() === "") return;
+    if (inputMessage.trim() === '') return;
 
     socket.send(inputMessage);
-    setInputMessage("");
+    setInputMessage('');
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.preventDefault();
       sendMessage();
     }
@@ -191,7 +186,7 @@ const ChatComponent = ({ chattingRoomId }) => {
       </MessageBox>
       <InputContainer>
         <TextInput
-          type="text"
+          type='text'
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={handleKeyDown}

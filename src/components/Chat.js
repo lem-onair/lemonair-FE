@@ -72,8 +72,8 @@ const ChatComponent = ({ chattingRoomId }) => {
   const fetchToken = useCallback(async () => {
     try {
       console.log(accessToken);
-      const response = await fetch("https://api.lemonair.me/api/auth/chat", {
-        method: "POST",
+      const response = await fetch('https://api.lemonair.me/api/auth/chat', {
+        method: 'POST',
         headers: {
           Authorization: accessToken,
         },
@@ -119,15 +119,19 @@ const ChatComponent = ({ chattingRoomId }) => {
         // 연결 종료 시 재연결 시도
         setTimeout(async () => {
           console.log('accessToken', accessToken);
-          const response = await fetch('https://api.lemonair.me/api/auth/chat', {
-            method: 'POST',
-            headers: {
-              Authorization: accessToken,
-            },
-          });
+          const response = await fetch(
+            'https://api.lemonair.me/api/auth/chat',
+            {
+              method: 'POST',
+              headers: {
+                Authorization: accessToken,
+              },
+            }
+          );
 
           // 응답에서 토큰 추출
-          const tokenString = response.data.chatToken;
+          const responseAgain = await response.json();
+          const tokenString = responseAgain.data.chatToken;
           const reconnectSocket = new WebSocket(
             `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
           );

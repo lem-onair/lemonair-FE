@@ -127,7 +127,8 @@ const ChatComponent = ({ chattingRoomId }) => {
           });
 
           // 응답에서 토큰 추출
-          const tokenString = response.data.chatToken;
+          const responseAgain = await response.json();
+          const tokenString = responseAgain.data.chatToken;
           const reconnectSocket = new WebSocket(
             `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
           );

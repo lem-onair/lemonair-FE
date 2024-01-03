@@ -156,7 +156,7 @@ const ChatComponent = ({ chattingRoomId }) => {
     };
 
     connectWebSocketAsync();
-  }, []);
+  }, [accessToken, chattingRoomIdString, fetchToken]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

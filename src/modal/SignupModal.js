@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import useInput from '../hooks/useInput';
+import React, { useState } from "react";
+import styled from "styled-components";
+import useInput from "../hooks/useInput";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -33,7 +33,7 @@ const Title = styled.h2`
   font-size: 2rem;
   color: #555;
   margin-bottom: 15px;
-  font-family: 'Reenie Beanie', cursive;
+  font-family: "Reenie Beanie", cursive;
 `;
 
 const InputField = styled.input`
@@ -45,7 +45,7 @@ const InputField = styled.input`
   font-size: 13px;
   padding-left: 1.2%;
   line-height: 16px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 `;
 
 const SubmitButton = styled.button`
@@ -59,7 +59,7 @@ const SubmitButton = styled.button`
   background-color: #f8de7e;
   color: #4c3c00;
   margin: 0 auto;
-  font-family: 'Gamja Flower', sans-serif;
+  font-family: "Gamja Flower", sans-serif;
 
   &:hover {
     background-color: #ffea00;
@@ -74,16 +74,16 @@ const Label = styled.label`
   color: #333;
   text-align: left;
   padding-left: 15%;
-  font-family: 'Gamja Flower', sans-serif;
+  font-family: "Gamja Flower", sans-serif;
 `;
 
 const SignupModal = ({ closeModal }) => {
-  const [loginId, onChangeLoginId] = useInput('');
-  const [email, onChangeEmail] = useInput('');
-  const [password, onChangePassword] = useInput('');
-  const [password2, onChangePassword2] = useInput('');
-  const [nickname, onChangeNickname] = useInput('');
-  const [error, setError] = useState('');
+  const [loginId, onChangeLoginId] = useInput("");
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassword] = useInput("");
+  const [password2, onChangePassword2] = useInput("");
+  const [nickname, onChangeNickname] = useInput("");
+  const [error, setError] = useState("");
 
   const handleOutsideClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -95,12 +95,12 @@ const SignupModal = ({ closeModal }) => {
     e.preventDefault();
 
     if (!loginId || !email || !password || !password2 || !nickname) {
-      setError('모든 필드를 입력해주세요.');
+      setError("모든 필드를 입력해주세요.");
       return;
     }
 
     if (password !== password2) {
-      setError('비밀번호가 일치하지 않습니다.');
+      setError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -116,7 +116,7 @@ const SignupModal = ({ closeModal }) => {
       const response = await fetch('https://api.lemonair.me/api/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(signupData),
       });
@@ -130,11 +130,11 @@ stream key : ${data.streamKey}`
         );
         closeModal();
       } else {
-        setError('회원가입에 실패했습니다.');
+        setError("회원가입에 실패했습니다.");
         // 서버 에러 정의되면 서버에러로 바꿔야 함
       }
     } catch (error) {
-      setError('오류가 발생했습니다.');
+      setError("오류가 발생했습니다.");
       // 서버 에러 정의되면 서버에러로 바꿔야 함
     }
   };
@@ -144,48 +144,48 @@ stream key : ${data.streamKey}`
       <Modal>
         <Title>Signup</Title>
         <form onSubmit={handleSubmit}>
-          <Label htmlFor='loginId'>아이디</Label>
+          <Label htmlFor="loginId">아이디</Label>
           <InputField
-            type='text'
-            id='loginId'
-            placeholder='아이디'
+            type="text"
+            id="loginId"
+            placeholder="아이디"
             value={loginId}
             onChange={onChangeLoginId}
           />
-          <Label htmlFor='email'>이메일</Label>
+          <Label htmlFor="email">이메일</Label>
           <InputField
-            type='email'
-            id='email'
-            placeholder='이메일'
+            type="email"
+            id="email"
+            placeholder="이메일"
             value={email}
             onChange={onChangeEmail}
           />
-          <Label htmlFor='password'>비밀번호</Label>
+          <Label htmlFor="password">비밀번호</Label>
           <InputField
-            type='password'
-            id='password'
-            placeholder='비밀번호'
+            type="password"
+            id="password"
+            placeholder="비밀번호"
             value={password}
             onChange={onChangePassword}
           />
-          <Label htmlFor='password2'>비밀번호 확인</Label>
+          <Label htmlFor="password2">비밀번호 확인</Label>
           <InputField
-            type='password'
-            id='password2'
-            placeholder='비밀번호 확인'
+            type="password"
+            id="password2"
+            placeholder="비밀번호 확인"
             value={password2}
             onChange={onChangePassword2}
           />
-          <Label htmlFor='nickname'>닉네임</Label>
+          <Label htmlFor="nickname">닉네임</Label>
           <InputField
-            type='text'
-            id='nickname'
-            placeholder='닉네임'
+            type="text"
+            id="nickname"
+            placeholder="닉네임"
             value={nickname}
             onChange={onChangeNickname}
           />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <SubmitButton type='submit'>가입하기</SubmitButton>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <SubmitButton type="submit">가입하기</SubmitButton>
         </form>
       </Modal>
     </ModalBackground>

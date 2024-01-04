@@ -118,23 +118,16 @@ const ChatComponent = ({ chattingRoomId }) => {
         console.log('웹소켓 연결 종료');
         // 연결 종료 시 재연결 시도
         setTimeout(async () => {
-          console.log('accessToken', accessToken);
-          const response = await fetch(
-            'https://api.lemonair.me/api/auth/chat',
-            {
-              method: 'POST',
-              headers: {
-                Authorization: accessToken,
-              },
-            }
-          );
-
-          // 응답에서 토큰 추출
-          const responseAgain = await response.json();
-          const tokenString = responseAgain.data.chatToken;
+          if (accessToken) {
+            chatToken = await fetchToken();
+          } else {
+            chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
+          }
           const reconnectSocket = new WebSocket(
-            `ws://localhost:8082/chat/${chattingRoomIdString}/${tokenString}`
+            `wss://chat.lemonair.me/chat/${chattingRoomIdString}/${chatToken}`
           );
+          setSocket(reconnectSocket);
+
           reconnectSocket.onopen = () => {
             console.log('웹소켓 재연결됨');
             setSocket(reconnectSocket);
@@ -147,7 +140,7 @@ const ChatComponent = ({ chattingRoomId }) => {
             const message = receiveData.slice(1).join(':').trim();
             setMessages((prevMessages) => [...prevMessages, { from, message }]);
           };
-        }, 3000); // 3초 후 재연결 시도
+        }, 1000); // 1초 후 재연결 시도
       };
       return () => {
         newSocket.close();

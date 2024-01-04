@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/header";
-import VideoPlayer from "../components/ReactPlayer";
+import VideoPlayer from "../components/HlsPlayer";
 import styled from "styled-components";
 import Chat from "../components/Chat";
 
@@ -36,7 +36,7 @@ const ChannelDetail = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8081/api/channels/${id}`
+          `https://api.lemonair.me/api/channels/${id}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok.");

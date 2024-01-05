@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import Hls from "hls.js";
-import SelectInput from "@material-ui/core/Select/SelectInput";
 const config = {
   autoStartLoad: true,
   startPosition: -1,
@@ -109,16 +108,7 @@ const HlsVideoPlayer = ({ videoUrl }) => {
     console.log("useEffect실행");
     const initializeHls = (data) => {
       console.log(data);
-      // videoElement.play();
       console.log("hls", hls);
-      // console.log("hls.media.current.segments", hls.media.current.segments);
-      // console.log("data : ", data);
-
-      // videoElement.oncanplaythrough = function () {
-      //   console.log("oncanplaythrough 실행");
-      //   videoElement.play();
-      // };
-
       videoElement.addEventListener("loadedmetadata", function () {
         console.log("metadata loaded ");
         let myFragments = data.levels[0].details.fragments;
@@ -143,27 +133,6 @@ const HlsVideoPlayer = ({ videoUrl }) => {
             });
         }
       });
-      // videoElement.muted = false;
-      // 마지막 청크의 재생시간으로 이동
-
-      // var autoplayVideoInterval = setInterval(autoplayVideo, 1000);
-      // function autoplayVideo() {
-      //   var promise = videoElement.play();
-      //   console.log("promise", promise);
-      //   if (promise !== undefined) {
-      //     promise
-      //       .then(function (_) {
-      //         console.log("promise then");
-      //         // Autoplay started!
-      //         videoElement.muted = false;
-      //         clearInterval(autoplayVideoInterval);
-      //       })
-      //       .catch(function (error) {
-      //         console.log("error", error);
-      //         // Autoplay was prevented.
-      //         // Show a "Play" button so that user can start playback.
-      //       });
-      //   }
     };
 
     // Hls 지원 여부 확인
@@ -172,30 +141,20 @@ const HlsVideoPlayer = ({ videoUrl }) => {
         console.log("hls를 지원한다.");
 
         hls = new Hls(config);
-        // 이벤트 리스너 등록
-        // hls.on(Hls.Events.MEDIA_ATTACHED, (event, data) => {
-        //   console.log("event listener 등록");
-        //   initializeHls(data);
-        // });
-
         hls.on(Hls.Events.MEDIA_ATTACHED, function () {
           console.log("hls.on(Hls.Events.MEDIA_ATTACHED 실행");
         });
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
           console.log("hls.on(Hls.Events.MANIFEST_PARSED 실행");
+          setTimeout(initializeHls(data), 500);
           console.log("로드한 데이터", data);
-          setTimeout()
-          initializeHls(data);
+          // initializeHls(data);
         });
 
         hls.loadSource(videoUrl);
         hls.attachMedia(videoElement);
       } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-        // Hls 지원하지 않을 경우
-        videoElement.src = videoUrl;
-        console.log("hls 지원하지 않는 경우");
-        // 자동재생
-        // videoElement.play();
+        console.log("hls 타입 아님");
       }
     };
 

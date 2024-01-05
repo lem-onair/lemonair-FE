@@ -171,19 +171,20 @@ MySQL이 동기 블로킹 방식으로 동작한다는 점은 치명적이었지
 
 ## 기술스택 🧰
 
-- <img src="https://img.shields.io/badge/Common-%23121011?style=for-the-badge">
+- ### SHARED
   <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"><img src="https://img.shields.io/badge/Spring WebFlux-02303A?style=for-the-badge&logoColor=white"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
-- <img src="https://img.shields.io/badge/Streaming & Transcoding-%23121011?style=for-the-badge">
-  <img src="https://img.shields.io/badge/FFmpeg-007808?style=for-the-badge&logo=FFmpeg&logoColor=white"><img src="https://img.shields.io/badge/RTMP Netty Server-02303A?style=for-the-badge&logoColor=white">
-- <img src="https://img.shields.io/badge/Chatting-%23121011?style=for-the-badge">
-  <img src="https://img.shields.io/badge/WebSocket-%23ED8B00?style=for-the-badge&logo=&logoColor=white"><img src="https://img.shields.io/badge/Apache Kafka-%23ED8B?style=for-the-badge&logo=Apache Kafka&logoColor=white"><img src="https://img.shields.io/badge/Zookeeper-FF6984?style=for-the-badge&logo=&logoColor=white">
-- <img src="https://img.shields.io/badge/Service(API)-%23121011?style=for-the-badge">
-  <img src="https://img.shields.io/badge/REDIS-DC382D?style=for-the-badge&logo=Redis&logoColor=white"><img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white">
-- <img src="https://img.shields.io/badge/DevOps-%23121011?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"><img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"><img src="https://img.shields.io/badge/Cloud Front-FF4F8B?style=for-the-badge&logo=Cloud Front&logoColor=white"><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"><img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"><img src="https://img.shields.io/badge/Github Actions-2088FF?style=for-the-badge&logo=Github Actions&logoColor=white">
-- <img src="https://img.shields.io/badge/Testing Tools-%23121011?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Apache JMeter-D22128?style=for-the-badge&logo=Apache JMeter&logoColor=white"><img src="https://img.shields.io/badge/Gatling-FF9E2A?style=for-the-badge&logo=Gatling&logoColor=white"><img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white"><img src="https://img.shields.io/badge/InfluxDB-22ADF6?style=for-the-badge&logo=InfluxDB&logoColor=white"><img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white">
-- <img src="https://img.shields.io/badge/FRONTEND-%23121011?style=for-the-badge">
+  <br /><br />
+- ### STREAMING & TRANSCODING
+  <img src="https://img.shields.io/badge/FFmpeg-007808?style=for-the-badge&logo=FFmpeg&logoColor=white"><img src="https://img.shields.io/badge/RTMP Netty Server-02303A?style=for-the-badge&logoColor=white"><br />
+- ### CHATTING
+  <img src="https://img.shields.io/badge/WebSocket-%23ED8B00?style=for-the-badge&logo=&logoColor=white"><img src="https://img.shields.io/badge/Apache Kafka-%23ED8B?style=for-the-badge&logo=Apache Kafka&logoColor=white"><img src="https://img.shields.io/badge/Zookeeper-FF6984?style=for-the-badge&logo=&logoColor=white"><br /><br />
+- ### SERVICE(API)
+  <img src="https://img.shields.io/badge/REDIS-DC382D?style=for-the-badge&logo=Redis&logoColor=white"><img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"><br /><br />
+- ### DEVOPS
+  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"><img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"><img src="https://img.shields.io/badge/Cloud Front-FF4F8B?style=for-the-badge&logo=Cloud Front&logoColor=white"><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"><img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"><img src="https://img.shields.io/badge/Github Actions-2088FF?style=for-the-badge&logo=Github Actions&logoColor=white"><br /><br />
+- ### TESTING TOOLS
+  <img src="https://img.shields.io/badge/Apache JMeter-D22128?style=for-the-badge&logo=Apache JMeter&logoColor=white"><img src="https://img.shields.io/badge/Gatling-FF9E2A?style=for-the-badge&logo=Gatling&logoColor=white"><img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white"><img src="https://img.shields.io/badge/InfluxDB-22ADF6?style=for-the-badge&logo=InfluxDB&logoColor=white"><img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"><br /><br />
+- ### FRONTEND
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
   <br />
   <br />

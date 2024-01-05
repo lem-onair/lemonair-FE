@@ -114,7 +114,7 @@ const ChatComponent = ({ chattingRoomId }) => {
       };
 
       newSocket.onmessage = (event) => {
-        console.log(event.data);
+        // console.log(event.data);
         const receiveData = event.data.split(':');
         const from = receiveData[0];
         const message = receiveData.slice(1).join(':').trim();
@@ -147,12 +147,17 @@ const ChatComponent = ({ chattingRoomId }) => {
           };
 
           reconnectSocket.onmessage = (event) => {
-            console.log(event.data);
+            // console.log(event.data);
             const receiveData = event.data.split(':');
             const from = receiveData[0];
             const message = receiveData.slice(1).join(':').trim();
             setMessages((prevMessages) => [...prevMessages, { from, message }]);
           };
+
+          reconnectSocket.onclose = () => {
+            console.log('웹소켓 연결 종료');
+            clearInterval(socketIntervalId);
+          }
         }, 1000); // 1초 후 재연결 시도
       };
       return () => {

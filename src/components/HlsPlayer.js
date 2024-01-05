@@ -3,13 +3,13 @@ import Hls from "hls.js";
 const config = {
   autoStartLoad: true,
   startPosition: -1,
-  debug: false,
+  debug: true,
   capLevelOnFPSDrop: false,
   capLevelToPlayerSize: false,
   defaultAudioCodec: undefined,
   initialLiveManifestSize: 1,
-  maxBufferLength: 30,
-  maxMaxBufferLength: 600,
+  maxBufferLength: 3000,
+  maxMaxBufferLength: 6000,
   backBufferLength: Infinity,
   frontBufferFlushThreshold: Infinity,
   maxBufferSize: 60 * 1000 * 1000,
@@ -29,13 +29,13 @@ const config = {
       maxTimeToFirstByteMs: 9000,
       maxLoadTimeMs: 100000,
       timeoutRetry: {
-        maxNumRetry: 2,
-        retryDelayMs: 0,
-        maxRetryDelayMs: 0,
+        maxNumRetry: 100,
+        retryDelayMs: 10,
+        maxRetryDelayMs: 10,
       },
       errorRetry: {
-        maxNumRetry: 5,
-        retryDelayMs: 3000,
+        maxNumRetry: 10,
+        retryDelayMs: 1000,
         maxRetryDelayMs: 15000,
         backoff: "linear",
       },
@@ -54,7 +54,7 @@ const config = {
   lowLatencyMode: true,
   fpsDroppedMonitoringPeriod: 5000,
   fpsDroppedMonitoringThreshold: 0.2,
-  appendErrorMaxRetry: 3,
+  appendErrorMaxRetry: 100,
   // loader: customLoader,
   // fLoader: customFragmentLoader,
   // pLoader: customPlaylistLoader,
@@ -100,27 +100,21 @@ const config = {
 
 const HlsVideoPlayer = ({ videoUrl }) => {
   const videoRef = useRef(null);
-  console.log("videoRef", videoRef);
+  // console.log("videoRef", videoRef);
   useEffect(() => {
     const videoElement = videoRef.current;
     let hls;
-
-    console.log("useEffect실행");
+    // console.log("useEffect실행");
     const initializeHls = (data) => {
-      console.log(data);
-      console.log("hls", hls);
       videoElement.addEventListener("loadedmetadata", function () {
         console.log("metadata loaded ");
         let myFragments = data.levels[0].details.fragments;
         console.log("myFragments", myFragments);
         const lastSegment = myFragments[myFragments.length - 1];
-        // console.log("lastSegment", lastSegment);
         if (lastSegment) {
-          videoElement.currentTime = lastSegment.start - 0.5;
+          videoElement.currentTime = lastSegment.start - 10;
         }
         var playPromise = videoElement.play();
-        // In browsers that don’t yet support this functionality,
-        // playPromise won’t be defined.
         console.log("playPromise", playPromise);
         if (playPromise !== undefined) {
           playPromise
@@ -138,7 +132,7 @@ const HlsVideoPlayer = ({ videoUrl }) => {
     // Hls 지원 여부 확인
     const loadVideo = async () => {
       if (Hls.isSupported()) {
-        console.log("hls를 지원한다.");
+        // console.log("hls를 지원한다.");
 
         hls = new Hls(config);
         hls.on(Hls.Events.MEDIA_ATTACHED, function () {
@@ -146,13 +140,126 @@ const HlsVideoPlayer = ({ videoUrl }) => {
         });
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
           console.log("hls.on(Hls.Events.MANIFEST_PARSED 실행");
-          setTimeout(initializeHls(data), 500);
+          setTimeout(initializeHls(data), 100);
           console.log("로드한 데이터", data);
           // initializeHls(data);
         });
 
-        hls.loadSource(videoUrl);
+        // hls.on(Hls.Events.AUDIO_TRACKS_UPDATED, () =>
+        //   console.log("Hls.Events.AUDIO_TRACKS_UPDATED")
+        // );
+
+        // hls.on(Hls.Events.AUDIO_TRACK_LOADED, () =>
+        //   console.log("Hls.Events.AUDIO_TRACK_LOADED")
+        // );
+
+        // hls.on(Hls.Events.AUDIO_TRACK_LOADING, () =>
+        //   console.log("Hls.Events.AUDIO_TRACK_LOADING")
+        // );
+
+        // hls.on(Hls.Events.AUDIO_TRACK_SWITCHED, () =>
+        //   console.log("Hls.Events.AUDIO_TRACK_SWITCHED")
+        // );
+
+        // hls.on(Hls.Events.AUDIO_TRACK_SWITCHING, () =>
+        //   console.log("Hls.Events.AUDIO_TRACK_SWITCHING")
+        // );
+
+        // hls.on(Hls.Events.BACK_BUFFER_REACHED, () =>
+        //   console.log("Hls.Events.BACK_BUFFER_REACHED")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_APPENDED, () =>
+        //   console.log("Hls.Events.BUFFER_APPENDED")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_APPENDING, () =>
+        //   console.log("Hls.Events.BUFFER_APPENDING")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_CODECS, () =>
+        //   console.log("Hls.Events.BUFFER_CODECS")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_CREATED, () =>
+        //   console.log("Hls.Events.BUFFER_CREATED")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_EOS, () =>
+        //   console.log("Hls.Events.BUFFER_EOS")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_FLUSHED, () =>
+        //   console.log("Hls.Events.BUFFER_FLUSHED")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_FLUSHING, () =>
+        //   console.log("Hls.Events.BUFFER_FLUSHING")
+        // );
+
+        // hls.on(Hls.Events.BUFFER_RESET, () =>
+        //   console.log("Hls.Events.BUFFER_RESET")
+        // );
+
+        // hls.on(Hls.Events.CUES_PARSED, () =>
+        //   console.log("Hls.Events.CUES_PARSED")
+        // );
+
+        // hls.on(Hls.Events.DESTROYING, () =>
+        //   console.log("Hls.Events.DESTROYING")
+        // );
+
+        // hls.on(Hls.Events.ERROR, () => console.log("Hls.Events.ERROR"));
+
+        // hls.on(Hls.Events.FPS_DROP, () => console.log("Hls.Events.FPS_DROP"));
+
+        // hls.on(Hls.Events.FPS_DROP_LEVEL_CAPPING, () =>
+        //   console.log("Hls.Events.FPS_DROP_LEVEL_CAPPING")
+        // );
+
+        // hls.on(Hls.Events.FRAG_BUFFERED, () =>
+        //   console.log("Hls.Events.FRAG_BUFFERED")
+        // );
+
+        // hls.on(Hls.Events.FRAG_CHANGED, () =>
+        //   console.log("Hls.Events.FRAG_CHANGED")
+        // );
+
+        // hls.on(Hls.Events.FRAG_DECRYPTED, () =>
+        //   console.log("Hls.Events.FRAG_DECRYPTED")
+        // );
+
+        // hls.on(Hls.Events.FRAG_LOADED, () =>
+        //   console.log("Hls.Events.FRAG_LOADED")
+        // );
+
+        // hls.on(Hls.Events.FRAG_LOADING, () =>
+        //   console.log("Hls.Events.FRAG_LOADING")
+        // );
+
+        // hls.on(Hls.Events.FRAG_LOAD_EMERGENCY_ABORTED, () =>
+        //   console.log("Hls.Events.FRAG_LOAD_EMERGENCY_ABORTED")
+        // );
+
+        // hls.on(Hls.Events.FRAG_PARSED, () =>
+        //   console.log("Hls.Events.FRAG_PARSED")
+        // );
+
+        // hls.on(Hls.Events.FRAG_PARSING_INIT_SEGMENT, () =>
+        //   console.log("Hls.Events.FRAG_PARSING_INIT_SEGMENT")
+        // );
+
+        // hls.on(Hls.Events.FRAG_PARSING_METADATA, () =>
+        //   console.log("Hls.Events.FRAG_PARSING_METADATA")
+        // );
+
+        // hls.on(Hls.Events.FRAG_PARSING_USERDATA, () =>
+        //   console.log("Hls.Events.FRAG_PARSING_USERDATA")
+        // );
+
+        // hls.on(Hls.Events.ERROR, (e) => console.log(e));
         hls.attachMedia(videoElement);
+        hls.loadSource(videoUrl);
       } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
         console.log("hls 타입 아님");
       }

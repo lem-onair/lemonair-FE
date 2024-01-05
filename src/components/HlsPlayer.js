@@ -164,7 +164,7 @@ const HlsVideoPlayer = ({ videoUrl }) => {
 
   return (
     <div>
-      <video ref={videoRef} controls />
+      <video ref={videoRef} controls width="100%" height="100%" />
     </div>
   );
 };

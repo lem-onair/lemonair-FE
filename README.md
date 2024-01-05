@@ -104,6 +104,7 @@ Reactive manifesto의 핵심가치인 복원력과 유연성에 대한 가치를
 <summary> jmeter / gatling / k6</summary>
 <div markdown="1">
 
+```
 채팅 서버 부하 테스트를 위해 3개의 테스팅 툴을 모두 사용해본 결과
 Spike Test(동시 2000+명 접속)를 진행하면서 Jmeter는 gatling, k6와 비교했을 때
 웹소켓 연결 요청 실패가 많았습니다. Jmeter가 한 명의 VU당 하나의 쓰레드를 할당하여
@@ -123,6 +124,7 @@ gatling은 기본적으로 요청에 대한 응답을 테스트 지표로 제공
 K6가 기본적으로 제공하는 테스트 결과가 Jmeter, Gatling에 비해 부족하다는 느낌을 받았으나,
 Jmeter, Gatling 또한 실시간으로 여러가지 지표에 대한 결과를 분석하려면 다른 모니터링 툴 과의
 연동이 필수적이므로 단점으로 부각되지 않았습니다.
+```
 
 </div>
 </details>

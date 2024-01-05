@@ -13,7 +13,7 @@ const Home = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://api.lemonair.me/api/channels')
+    fetch(`${process.env.REACT_APP_API_URL}/api/channels`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);

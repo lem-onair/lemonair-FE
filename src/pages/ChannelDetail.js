@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/header";
-import VideoPlayer from "../components/ReactPlayer";
+import HlsVideoPlayer from "../components/HlsPlayer";
 import styled from "styled-components";
 import Chat from "../components/Chat";
 
@@ -58,7 +58,9 @@ const ChannelDetail = () => {
       <Header />
       <StreamingChatContainer>
         <StreamingContainer>
-          {channelData ? <VideoPlayer videoUrl={channelData.hlsUrl} /> : null}
+          {channelData ? (
+            <HlsVideoPlayer videoUrl={channelData.hlsUrl} />
+          ) : null}
           {channelData ? (
             <ChatWrapper>
               <Chat chattingRoomId={channelData.chattingRoomId}></Chat>

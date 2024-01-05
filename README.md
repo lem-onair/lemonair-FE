@@ -24,7 +24,7 @@
 | ![sequence-diagram-1](https://github.com/lem-onair/lemonair-FE/assets/121735319/af029026-d460-4cb6-b61f-fc4effbad9eb) | ![sequence-diagram-2](https://github.com/lem-onair/lemonair-FE/assets/121735319/8ae538e2-c75e-4277-8c13-1c72a34c35ec) |
 | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 
-## 기술적 의사결정 🤔
+## | 기술적 의사결정 🤔
 
 ---
 
@@ -169,7 +169,7 @@ MySQL이 동기 블로킹 방식으로 동작한다는 점은 치명적이었지
 </div>
 </details>
 
-## 기술스택 🧰
+## | 기술스택 🧰
 
 - ### SHARED
   <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"><img src="https://img.shields.io/badge/Spring WebFlux-02303A?style=for-the-badge&logoColor=white"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
@@ -190,7 +190,24 @@ MySQL이 동기 블로킹 방식으로 동작한다는 점은 치명적이었지
   <br />
   <br />
 
-## 멤버 👯‍♂️
+## | 트러블슈팅 🤬
+---
+### 1. 브라우저 새로고침 시에 웹소켓 연결이 끊기는 문제
+### 2. Thumbnail 무한 업로드 문제
+### 3. CloudFront Cache 관련 문제
+<br />
+
+### 해결 과정이 궁금하시다면 ? 
+### [Lemonair 트러블슈팅 노션 페이지](https://arrow-troodon-1c3.notion.site/96b72f2f066947e69d65560f748a7848?pvs=4)
+
+<br />
+
+
+## | 성능 개선 💪 (예정)
+---
+
+## | 멤버 👯‍♂️
+---
 
 - 이상문 : https://github.com/alaneelee
 - 서병렬 : https://github.com/BYEONGRYEOL

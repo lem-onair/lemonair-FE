@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <ArticleContainer>저는 쓰레기 hls에요!!</ArticleContainer>
+      <ArticleContainer></ArticleContainer>
 
       {data.length > 2 && <CardExample data={data} />}
     </>

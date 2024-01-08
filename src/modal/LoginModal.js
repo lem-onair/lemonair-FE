@@ -100,18 +100,22 @@ const LoginModal = ({ closeModal }) => {
     };
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(loginData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        window.location.reload();
         closeModal();
       } else {
         setError('아이디 또는 비밀번호가 올바르지 않습니다.');

@@ -4,9 +4,7 @@ import Header from '../components/header';
 import styled from 'styled-components';
 import Chat from '../components/Chat';
 import HlsVideoPlayer from '../components/HlsPlayer';
-import ReactPlayer from '../components/ReactPlayer';
-import VideoPlayer from '../components/HlsSangmun';
-import Vivideo from '../components/Vivideo';
+
 
 const StreamingContainer = styled.div`
   width: 100%;

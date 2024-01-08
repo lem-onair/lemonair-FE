@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Hls from 'hls.js';
+import Hls from 'hls.js/dist/hls.min';
 
 const HlsVideoPlayer = ({ videoUrl }) => {
   const videoRef = useRef(null);
@@ -14,21 +14,24 @@ const HlsVideoPlayer = ({ videoUrl }) => {
       console.log('initialize 실행');
       // 자동재생
       console.log('play 실행 전');
-      videoElement.play();
+
+      //   videoElement.play();
       console.log('play 실행 후ㅡ');
       // 마지막 청크의 재생시간으로 이동
       console.log('hls', hls);
+      //   videoElement.muted = false;
       // console.log("hls.media.current.segments", hls.media.current.segments);
-      console.log(data.lastSegment);
-      console.log(hls.media.segments);
-      const lastSegment = hls.media.segments[hls.media.segments.length - 1];
-      console.log('lastSegment', lastSegment);
+
+      let myFragments = data.levels[0].details.fragments;
+      // console.log(hls.media.segments);
+      const lastSegment = myFragments[myFragments.length - 1];
+
+      // console.log("lastSegment", lastSegment);
       if (lastSegment) {
-        videoElement.currentTime = lastSegment.end;
+        videoElement.currentTime = lastSegment.start - 0.5;
       }
     };
 
-    // Hls 지원 여부 확인
     if (Hls.isSupported()) {
       console.log('hls를 지원한다.');
       var config = {
@@ -130,11 +133,6 @@ const HlsVideoPlayer = ({ videoUrl }) => {
       };
 
       hls = new Hls(config);
-      // 이벤트 리스너 등록
-      // hls.on(Hls.Events.MEDIA_ATTACHED, (event, data) => {
-      //   console.log("event listener 등록");
-      //   initializeHls(data);
-      // });
 
       hls.on(Hls.Events.MEDIA_ATTACHED, function () {
         console.log('video and hls.js are now bound together !');
@@ -159,10 +157,20 @@ const HlsVideoPlayer = ({ videoUrl }) => {
         console.log('컴포넌트 unmount시에 destroy');
         hls.destroy();
       }
+      if (videoElement) {
+        console.log('video pause');
+        videoElement.pause();
+      }
     };
-  }, [videoUrl]);
+  }, [videoUrl, videoRef.current]);
 
-  return <video ref={videoRef} controls width='100%' height='100%' />;
+  return (
+    <div>
+      {videoRef ? (
+        <video ref={videoRef} controls width='100%' height='100%' muted />
+      ) : null}
+    </div>
+  );
 };
 
 export default HlsVideoPlayer;

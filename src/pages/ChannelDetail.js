@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Chat from '../components/Chat';
 import HlsVideoPlayer from '../components/HlsPlayer';
 
+
 const StreamingContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -41,18 +42,15 @@ const ChannelDetail = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://api.lemonair.me/api/channels/${id}`
+          `${process.env.REACT_APP_API_URL}/api/channels/${id}`
         );
         if (!response.ok) {
           throw new Error('Network response was not ok.');
         }
         const data = await response.json();
         setChannelData(data);
-        console.log('title:', data.title);
-        console.log('url:', data.hlsUrl);
-        console.log('roomid:', data.chattingRoomId);
       } catch (error) {
-        console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
       }
     };
 

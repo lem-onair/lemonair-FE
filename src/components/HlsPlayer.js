@@ -162,7 +162,7 @@ const HlsVideoPlayer = ({ videoUrl }) => {
         videoElement.pause();
       }
     };
-  }, [videoUrl, videoRef.current]);
+  }, [videoUrl]);
 
   return (
     <div>

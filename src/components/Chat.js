@@ -184,7 +184,7 @@ const ChatComponent = ({ chattingRoomId }) => {
     };
 
     connectWebSocketAsync();
-  }, [accessToken, chattingRoomIdString, fetchToken]);
+  }, [accessToken, chattingRoomIdString, fetchToken, socketIntervalId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

@@ -6,8 +6,8 @@
 //     <ReactPlayer
 //       url={videoUrl}
 //       controls={true}
-//       width='68%'
-//       height='68%'
+//       width='100%'
+//       height='100%'
 //       playing={true}
 //       config={{
 //         hls: {

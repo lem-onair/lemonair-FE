@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
-
 const ChatContainer = styled.div`
   border: 1px solid #ccc;
   width: 99.7%;
@@ -42,6 +41,15 @@ const InputContainer = styled.div`
   justify-content: center;
 `;
 
+const NotLoginInputContainer = styled.div`
+  margin-top: auto;
+  border-top: 1px solid #333333;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const TextInput = styled.input`
   border-radius: 10px;
   width: 70%;
@@ -67,19 +75,28 @@ const ChatComponent = ({ chattingRoomId }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState(null);
   const [socketIntervalId, setSocketIntervalId] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const messagesEndRef = useRef(null);
 
   const chattingRoomIdString = chattingRoomId;
   const accessToken = localStorage.getItem('accessToken');
+  useEffect(() => {
+    if (accessToken) {
+      setIsLoggedIn(true);
+    }
+  }, [accessToken]);
   const fetchToken = useCallback(async () => {
     try {
       console.log(accessToken);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/chat`, {
-        method: 'POST',
-        headers: {
-          Authorization: accessToken,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/auth/chat`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error('Network response was not ok.');
       }
@@ -114,7 +131,7 @@ const ChatComponent = ({ chattingRoomId }) => {
       };
 
       newSocket.onmessage = (event) => {
-        console.log(event.data);
+        // console.log(event.data);
         const receiveData = event.data.split(':');
         const from = receiveData[0];
         const message = receiveData.slice(1).join(':').trim();
@@ -147,11 +164,16 @@ const ChatComponent = ({ chattingRoomId }) => {
           };
 
           reconnectSocket.onmessage = (event) => {
-            console.log(event.data);
+            // console.log(event.data);
             const receiveData = event.data.split(':');
             const from = receiveData[0];
             const message = receiveData.slice(1).join(':').trim();
             setMessages((prevMessages) => [...prevMessages, { from, message }]);
+          };
+
+          reconnectSocket.onclose = () => {
+            console.log('웹소켓 연결 종료');
+            clearInterval(socketIntervalId);
           };
         }, 1000); // 1초 후 재연결 시도
       };
@@ -178,6 +200,11 @@ const ChatComponent = ({ chattingRoomId }) => {
   };
 
   const handleKeyDown = (event) => {
+    if (!isLoggedIn && event.key === 'Enter') {
+      setInputMessage('');
+      return;
+    }
+
     if (event.key === 'Enter') {
       event.preventDefault();
       sendMessage();
@@ -195,15 +222,26 @@ const ChatComponent = ({ chattingRoomId }) => {
         ))}
         <div ref={messagesEndRef} />
       </MessageBox>
-      <InputContainer>
-        <TextInput
-          type='text'
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <SendButton onClick={sendMessage}>전송</SendButton>
-      </InputContainer>
+      {isLoggedIn ? (
+        <InputContainer>
+          <TextInput
+            type='text'
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <SendButton
+            onClick={sendMessage}
+            disabled={isLoggedIn ? false : true}
+          >
+            전송
+          </SendButton>
+        </InputContainer>
+      ) : (
+        <NotLoginInputContainer>
+            로그인한 사용자만 채팅을 입력할 수 있습니다.
+        </NotLoginInputContainer>
+      )}
     </ChatContainer>
   );
 };

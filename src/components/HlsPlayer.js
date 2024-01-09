@@ -143,6 +143,7 @@ const HlsVideoPlayer = ({ videoUrl }) => {
 
       hls.loadSource(videoUrl);
       hls.attachMedia(videoElement);
+      videoElement.play();
     } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
       // Hls 지원하지 않을 경우
       videoElement.src = videoUrl;

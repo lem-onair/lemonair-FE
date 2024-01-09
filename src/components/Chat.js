@@ -117,7 +117,7 @@ const ChatComponent = ({ chattingRoomId }) => {
       } else {
         chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
       }
-      const newSocket = new WebSocket(
+      let newSocket = new WebSocket(
         `${process.env.REACT_APP_CHAT_URL}/${chattingRoomIdString}/${chatToken}`
       );
       setSocket(newSocket);
@@ -126,6 +126,7 @@ const ChatComponent = ({ chattingRoomId }) => {
         const heartbeatInterval = setInterval(() => {
           newSocket.send('heartbeat');
         }, 30000);
+
 
         setSocketIntervalId(heartbeatInterval);
       };
@@ -149,32 +150,12 @@ const ChatComponent = ({ chattingRoomId }) => {
           } else {
             chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
           }
-          const reconnectSocket = new WebSocket(
+            newSocket = new WebSocket(
             `${process.env.REACT_APP_CHAT_URL}/${chattingRoomIdString}/${chatToken}`
           );
-          setSocket(reconnectSocket);
+          setSocket(newSocket);
 
-          reconnectSocket.onopen = () => {
-            console.log('웹소켓 재연결됨');
-            setSocket(reconnectSocket);
-            const heartbeatInterval = setInterval(() => {
-              newSocket.send('heartbeat');
-            }, 30000);
-            setSocketIntervalId(heartbeatInterval);
-          };
-
-          reconnectSocket.onmessage = (event) => {
-            // console.log(event.data);
-            const receiveData = event.data.split(':');
-            const from = receiveData[0];
-            const message = receiveData.slice(1).join(':').trim();
-            setMessages((prevMessages) => [...prevMessages, { from, message }]);
-          };
-
-          reconnectSocket.onclose = () => {
-            console.log('웹소켓 연결 종료');
-            clearInterval(socketIntervalId);
-          };
+          
         }, 1000); // 1초 후 재연결 시도
       };
       return () => {
@@ -184,7 +165,7 @@ const ChatComponent = ({ chattingRoomId }) => {
     };
 
     connectWebSocketAsync();
-  }, [accessToken, chattingRoomIdString, fetchToken, socketIntervalId]);
+  }, [accessToken, chattingRoomIdString, fetchToken]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -239,7 +220,7 @@ const ChatComponent = ({ chattingRoomId }) => {
         </InputContainer>
       ) : (
         <NotLoginInputContainer>
-            로그인한 사용자만 채팅을 입력할 수 있습니다.
+          로그인한 사용자만 채팅을 입력할 수 있습니다.
         </NotLoginInputContainer>
       )}
     </ChatContainer>

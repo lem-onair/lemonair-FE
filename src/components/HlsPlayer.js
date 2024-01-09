@@ -143,23 +143,12 @@ const HlsVideoPlayer = ({ videoUrl }) => {
 
       hls.loadSource(videoUrl);
       hls.attachMedia(videoElement);
-      
-
-      console.log('hls 정보 세팅 완료');
-
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        videoElement.play();
-        console.log('Starting playback');
-      });
     } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
       // Hls 지원하지 않을 경우
       videoElement.src = videoUrl;
       console.log('hls 지원하지 않는 경우');
-      videoElement.addEventListener('canplay', () => {
-        videoElement.play();
-      });
-    } else {
-      console.log('아무데도 없어');
+      // 자동재생
+      videoElement.play();
     }
 
     // 컴포넌트가 언마운트될 때 해제
@@ -173,7 +162,7 @@ const HlsVideoPlayer = ({ videoUrl }) => {
         videoElement.pause();
       }
     };
-  }, [videoUrl, videoRef.current]);
+  }, [videoUrl]);
 
   return (
     <div>

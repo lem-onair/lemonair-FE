@@ -12,6 +12,11 @@ const StreamingContainer = styled.div`
   display: flex;
 `;
 
+const VideoWrapper = styled.div`
+  width: 68%;
+  height: 68%;
+`;
+
 const StreamingChatContainer = styled.div`
   width: 100%;
   display: flex;
@@ -44,9 +49,8 @@ const ChannelDetail = () => {
         }
         const data = await response.json();
         setChannelData(data);
-        console.log(data);
       } catch (error) {
-        console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
       }
     };
 
@@ -58,7 +62,9 @@ const ChannelDetail = () => {
       <StreamingChatContainer>
         <StreamingContainer>
           {channelData ? (
-            <HlsVideoPlayer videoUrl={channelData.hlsUrl} />
+            <VideoWrapper>
+              <HlsVideoPlayer videoUrl={channelData.hlsUrl} />
+            </VideoWrapper>
           ) : null}
           {channelData ? (
             <ChatWrapper>

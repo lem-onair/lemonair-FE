@@ -74,7 +74,7 @@ const ChatComponent = ({ chattingRoomId }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState(null);
-  const [socketIntervalId, setSocketIntervalId] = useState(null);
+//   const [socketIntervalId, setSocketIntervalId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const messagesEndRef = useRef(null);
 
@@ -109,30 +109,21 @@ const ChatComponent = ({ chattingRoomId }) => {
   }, [accessToken]);
 
   useEffect(() => {
-    const connectWebSocketAsync = async () => {
-      let chatToken = '';
-      console.log('accessToken is null ? :', accessToken === null);
-      if (accessToken) {
-        chatToken = await fetchToken();
-      } else {
-        chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
-      }
-      let newSocket = new WebSocket(
+    const connectWebSocket = async () => {
+      let chatToken = accessToken ? await fetchToken() : 'notlogin';
+      const newSocket = new WebSocket(
         `${process.env.REACT_APP_CHAT_URL}/${chattingRoomIdString}/${chatToken}`
       );
-      setSocket(newSocket);
+
       newSocket.onopen = () => {
         console.log('웹소켓 연결됨');
-        const heartbeatInterval = setInterval(() => {
-          newSocket.send('heartbeat');
-        }, 30000);
-
-
-        setSocketIntervalId(heartbeatInterval);
+        // const heartbeatInterval = setInterval(() => {
+        //   newSocket.send('heartbeat');
+        // }, 30000);
+        // setSocketIntervalId(heartbeatInterval);
       };
 
       newSocket.onmessage = (event) => {
-        // console.log(event.data);
         const receiveData = event.data.split(':');
         const from = receiveData[0];
         const message = receiveData.slice(1).join(':').trim();
@@ -141,31 +132,24 @@ const ChatComponent = ({ chattingRoomId }) => {
 
       newSocket.onclose = () => {
         console.log('웹소켓 연결 종료');
-        clearInterval(socketIntervalId);
-
-        // 연결 종료 시 재연결 시도
-        setTimeout(async () => {
-          if (accessToken) {
-            chatToken = await fetchToken();
-          } else {
-            chatToken = 'notlogin'; // 로그인하지 않은 사용자의 경우 토큰 정보를 notlogin으로 요청한다.
-          }
-            newSocket = new WebSocket(
-            `${process.env.REACT_APP_CHAT_URL}/${chattingRoomIdString}/${chatToken}`
-          );
-          setSocket(newSocket);
-
-          
+        // clearInterval(socketIntervalId);
+        // 재연결 로직 추가
+        setTimeout(() => {
+          connectWebSocket();
         }, 1000); // 1초 후 재연결 시도
       };
-      return () => {
-        newSocket.close();
-        clearInterval(socketIntervalId);
-      };
+
+      setSocket(newSocket);
     };
 
-    connectWebSocketAsync();
-  }, [accessToken, chattingRoomIdString, fetchToken]);
+    connectWebSocket();
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+      // clearInterval(socketIntervalId);
+    };
+  }, [accessToken, chattingRoomIdString]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

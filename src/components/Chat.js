@@ -74,7 +74,7 @@ const ChatComponent = ({ chattingRoomId }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState(null);
-//   const [socketIntervalId, setSocketIntervalId] = useState(null);
+  const [socketIntervalId, setSocketIntervalId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const messagesEndRef = useRef(null);
 
@@ -117,10 +117,10 @@ const ChatComponent = ({ chattingRoomId }) => {
 
       newSocket.onopen = () => {
         console.log('웹소켓 연결됨');
-        // const heartbeatInterval = setInterval(() => {
-        //   newSocket.send('heartbeat');
-        // }, 30000);
-        // setSocketIntervalId(heartbeatInterval);
+        const heartbeatInterval = setInterval(() => {
+          newSocket.send('heartbeat');
+        }, 30000);
+        setSocketIntervalId(heartbeatInterval);
       };
 
       newSocket.onmessage = (event) => {
@@ -133,7 +133,7 @@ const ChatComponent = ({ chattingRoomId }) => {
       newSocket.onclose = () => {
         console.log('웹소켓 연결 종료');
         // clearInterval(socketIntervalId);
-        // 재연결 로직 추가
+
         setTimeout(() => {
           connectWebSocket();
         }, 1000); // 1초 후 재연결 시도
@@ -147,7 +147,7 @@ const ChatComponent = ({ chattingRoomId }) => {
       if (socket) {
         socket.close();
       }
-      // clearInterval(socketIntervalId);
+      clearInterval(socketIntervalId);
     };
   }, [accessToken, chattingRoomIdString]);
 

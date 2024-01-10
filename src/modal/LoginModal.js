@@ -131,8 +131,8 @@ const LoginModal = ({ closeModal }) => {
         <form onSubmit={handleSubmit}>
           <Label htmlFor='loginId'>아이디</Label>
           <InputField
-            type='loginId'
-            id='text'
+            type='text'
+            id='loginId'
             placeholder='아이디'
             value={loginId}
             onChange={onChangeLoginId}

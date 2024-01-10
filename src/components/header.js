@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as LemonSVG } from '../images/lemon.svg';
 import SignupModal from '../modal/SignupModal';
 import LoginModal from '../modal/LoginModal';
+import PaymentsModal from '../modal/PaymentsModal';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -68,10 +69,31 @@ const HeaderText = styled.span`
   font-family: 'Reenie Beanie', cursive;
 `;
 
+const HeaderText2 = styled.span`
+  cursor: pointer;
+  margin-left: 15px;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #555;
+  padding-right: 25px;
+  font-family: 'Gamja Flower', sans-serif;
+`;
+
+
+
 const Header = () => {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isPaymentsModalOpen, setIsPaymentsModalOpen] = useState(false);
   const accessToken = localStorage.getItem('accessToken');
+
+  const openPaymentsModal = () => {
+    setIsPaymentsModalOpen(true);
+  };
+
+  const closePaymentsModal = () => {
+    setIsPaymentsModalOpen(false);
+  };
 
   const openSignupModal = () => {
     setIsSignupModalOpen(true);
@@ -91,12 +113,15 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/logout`, {
-        method: 'POST',
-        headers: {
-          Authorization: accessToken,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/logout`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
 
       if (response.ok) {
         localStorage.removeItem('accessToken');
@@ -122,6 +147,7 @@ const Header = () => {
       </SvgDiv>
       {accessToken ? (
         <UserOptions>
+          <HeaderText2 onClick={openPaymentsModal}>레몬 충전</HeaderText2>
           <HeaderText onClick={handleLogout}>Log out</HeaderText>
         </UserOptions>
       ) : (
@@ -130,6 +156,7 @@ const Header = () => {
           <HeaderText onClick={openLoginModal}>Log in</HeaderText>
         </UserOptions>
       )}
+      {isPaymentsModalOpen && <PaymentsModal closeModal={closePaymentsModal} />}
       {isSignupModalOpen && <SignupModal closeModal={closeSignupModal} />}
       {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
     </HeaderContainer>

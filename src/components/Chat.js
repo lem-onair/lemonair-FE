@@ -15,6 +15,7 @@ const MessageContainer = styled.div`
 `;
 
 const MessageBox = styled.div`
+  width: 100%;
   height: 72vh;
   overflow-y: scroll;
 `;
@@ -26,10 +27,55 @@ const Sender = styled.span`
   font-family: 'Gamja Flower', sans-serif;
 `;
 
+const DonationSender = styled.div`
+  width: 100%;
+  color: #228b22;
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: 'Gamja Flower', sans-serif;
+`;
+
+const DonationText = styled.div`
+  margin: 0 auto;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #8b4513;
+  font-family: 'Gamja Flower', sans-serif;
+`;
+
 const SpanText = styled.span`
   font-size: 1.1rem;
   color: #666;
   font-family: 'Gamja Flower', sans-serif;
+`;
+
+const DonationCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  /* min-width: 25%;
+  max-width: 50%; */
+  width: 50%;
+  height: 20%;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const DonationImg = styled.img`
+  align-self: center;
+  width: 50%;
+  border-radius: 8px 8px 0 0;
+`;
+
+const DonationMessage = styled.span`
+  font-size: 1.8rem;
+  color: #ffd700;
+  font-family: 'Gamja Flower', sans-serif;
+  padding-left: 15px;
+  flex-direction: row;
 `;
 
 const InputContainer = styled.div`
@@ -124,10 +170,20 @@ const ChatComponent = ({ chattingRoomId }) => {
       };
 
       newSocket.onmessage = (event) => {
+        console.log(event);
         const receiveData = event.data.split(':');
-        const from = receiveData[0];
-        const message = receiveData.slice(1).join(':').trim();
-        setMessages((prevMessages) => [...prevMessages, { from, message }]);
+        const messageType = receiveData[0];
+        const from = receiveData[1];
+        const donationMessage = receiveData[2];
+        const message = receiveData.slice(3).join(':').trim();
+
+        console.log(messageType);
+        console.log(donationMessage);
+        // const message = receiveData[2];
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { messageType, from, donationMessage, message },
+        ]);
       };
 
       newSocket.onclose = () => {
@@ -181,8 +237,21 @@ const ChatComponent = ({ chattingRoomId }) => {
       <MessageBox>
         {messages.map((message, index) => (
           <MessageContainer key={index}>
-            <Sender>{message.from}: </Sender>
-            <SpanText>{message.message}</SpanText>
+            {message.messageType === 'CHAT' ? (
+              <>
+                <Sender>{message.from}: </Sender>
+                <SpanText>{message.message}</SpanText>
+              </>
+            ) : (
+              <>
+                <DonationCard>
+                  <DonationImg src='/lemon.jpg' />
+                  <DonationMessage>{message.message}</DonationMessage>
+                </DonationCard>
+                <DonationSender>Lemonair</DonationSender>
+                <DonationText>{message.donationMessage}</DonationText>
+              </>
+            )}
           </MessageContainer>
         ))}
         <div ref={messagesEndRef} />

@@ -4,7 +4,7 @@ import Header from '../components/header';
 import styled from 'styled-components';
 import Chat from '../components/Chat';
 import HlsVideoPlayer from '../components/HlsPlayer';
-
+import DonationModal from '../modal/DonationModal';
 
 const StreamingContainer = styled.div`
   width: 100%;
@@ -34,9 +34,28 @@ const ChatWrapper = styled.div`
   background-color: #fff;
 `;
 
+const DonationButton = styled.button`
+  cursor: pointer;
+  margin-left: 15px;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #555;
+  padding-right: 25px;
+  font-family: 'Gamja Flower', sans-serif;
+`;
+
 const ChannelDetail = () => {
   const { id } = useParams();
   const [channelData, setChannelData] = useState(null);
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+
+  const openDonationModal = () => {
+    setIsDonationModalOpen(true);
+  };
+
+  const closeDonationModal = () => {
+    setIsDonationModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +69,7 @@ const ChannelDetail = () => {
         const data = await response.json();
         setChannelData(data);
       } catch (error) {
-        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+        console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
       }
     };
 
@@ -76,6 +95,10 @@ const ChannelDetail = () => {
       {channelData ? (
         <StreamingTitle>{channelData.title}</StreamingTitle>
       ) : null}
+      <DonationButton onClick={openDonationModal}>후원하기</DonationButton>
+      {isDonationModalOpen && (
+        <DonationModal closeModal={closeDonationModal} streamerId={id} />
+      )}
     </>
   );
 };

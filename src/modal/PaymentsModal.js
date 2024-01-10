@@ -108,11 +108,14 @@ const PaymentsModal = ({ closeModal }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/point', {
-        headers: {
-          Authorization: accessToken,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/point`,
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
       setPointData(response.data);
       console.log('GET 요청 성공:', response.data);
     } catch (error) {
@@ -123,7 +126,7 @@ const PaymentsModal = ({ closeModal }) => {
   const sendAmountToServer = async (amount) => {
     try {
       const response = await axios.post(
-        'http://localhost:8081/api/point',
+        `${process.env.REACT_APP_API_URL}/api/point`,
         {
           point: amount,
         },
@@ -160,7 +163,7 @@ const PaymentsModal = ({ closeModal }) => {
       async (rsp) => {
         try {
           const { data } = await axios.post(
-            'http://localhost:8081/verifyIamport/' + rsp.imp_uid
+            `${process.env.REACT_APP_API_URL}/verifyIamport/` + rsp.imp_uid
           );
           if (rsp.paid_amount === data.response.amount) {
             alert('결제 성공');

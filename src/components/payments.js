@@ -30,7 +30,7 @@ const Payment = () => {
     IMP.init('imp82385247');
 
     IMP.request_pay({
-      pg:
+      pg:'tosspayments',
       pay_method: 'card',
       merchant_uid: new Date().getTime(),
       name: '테스트 상품',

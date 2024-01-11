@@ -154,7 +154,7 @@ const PaymentsModal = ({ closeModal }) => {
     IMP.init('imp82385247');
     IMP.request_pay(
       {
-        pg: 'kakaopay.TC0ONETIME',
+        pg: 'tosspay.tosstest',
         pay_method: 'card',
         merchant_uid: new Date().getTime(),
         name: '후원용',

@@ -5,7 +5,11 @@
 시청자들이 이를 시청하고 채팅과 후원으로 소통하는 서비스입니다.
 ```
 
-## 소개 영상 (예정)
+## 소개 영상 
+
+
+
+https://youtu.be/gUTpnhFRUK8
 
 ## | Service Architecture ⚙
 

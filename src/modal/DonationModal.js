@@ -110,11 +110,14 @@ const Donation = ({ closeModal, streamerId }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/point`, {
-        headers: {
-          Authorization: accessToken,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/point`,
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
       setPointData(response.data);
       console.log('GET 요청 성공:', response.data);
     } catch (error) {
@@ -125,8 +128,8 @@ const Donation = ({ closeModal, streamerId }) => {
   const handleDonation = async (e) => {
     e.preventDefault();
 
-    if (amount < 0) {
-      alert('음수로는 후원할 수 없어요');
+    if (amount <= 0) {
+      alert('0이나 음수로는 후원할 수 없어요');
       return;
     }
 
